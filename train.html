@@ -5,16 +5,90 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <title>Training</title>
     <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="./css/train.css" rel="stylesheet">
+    <link href="./lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <script src="./lib/jquery-3.1.0.min.js"></script>
     <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <button type="button" class="btn btn-default" aria-label="Left Align">
-        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-    </button>
-
-    <button type="button" class="btn btn-default btn-lg">
-      <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
-    </button>
+    <div class="main">
+        <form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="IntentOperation">Intent Operation</label>
+    <div class="controls">
+      <input type="text" id="IntentOperation" class="span8" placeholder="Intent Operation">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="Verb">Verb</label>
+    <div class="controls">
+      <input type="password" id="Verb" placeholder="Verb">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="TargetPrefix">Target Prefix</label>
+    <div class="controls">
+      <input type="password" id="TargetPrefix" placeholder="Target Prefix">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="Target">Target</label>
+    <div class="controls">
+      <input type="password" id="Target" placeholder="Target">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="Direction">Direction</label>
+    <div class="controls">
+      <input type="password" id="Direction" placeholder="Direction">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="BPCustomer">BP Customer</label>
+    <div class="controls">
+      <input type="password" id="BPCustomer" placeholder="BP Customer">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="BPVendor">BP Vendor</label>
+    <div class="controls">
+      <input type="password" id="BPVendor" placeholder="BP Vendor">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="ItemName">Item Name</label>
+    <div class="controls">
+      <input type="password" id="ItemName" placeholder="Item Name">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="OtherParameter1">Other Parameter 1</label>
+    <div class="controls">
+      <input type="password" id="OtherParameter1" placeholder="Other Parameter 1">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="OtherParameter2">Other Parameter 2</label>
+    <div class="controls">
+      <input type="password" id="OtherParameter2" placeholder="Other Parameter 2">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="OtherParameter3">Other Parameter 3</label>
+    <div class="controls">
+      <input type="password" id="OtherParameter3" placeholder="Other Parameter 3">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+  </div>
+</form>
+    </div>
+    <script type="text/javascript">
+        setInterval(function(){
+            window.location.reload();
+        }, 2000)
+    </script>
 </body>
