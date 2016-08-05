@@ -1,0 +1,8 @@
+start parser:
+ubuntu@sap-ai-assistant-demo:/SBONLP$ nohup python manage.py startparser 8888 &
+
+check the pid of parser:
+ps aux | grep "python manage.py startparser 8888"
+
+kill parser:
+kill -9
