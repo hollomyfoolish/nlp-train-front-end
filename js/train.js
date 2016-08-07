@@ -41,25 +41,24 @@
         values: ['None', 'Desc', 'Asc']
     }];
     var QUESTION_OPTIONS = [{
-        id: 'BPCustomer',
+        id: 'QBPCustomer',
         name: 'BP Customer'
     },{
-        id: 'BPVendor',
+        id: 'QBPVendor',
         name: 'BP Vendor'
     },{
-        id: 'Item',
+        id: 'QItem',
         name: 'Item'
     },{
-        id: 'DateTime',
+        id: 'QDateTime',
         name: 'Date Time'
     }];
-
 
     var template = function(temp){
         return {
             fill: function(data){
                 data = Array.isArray(data)? data : [data];
-                return data.map(d => temp.replace(/{(.+?)}/g, (m, g) => d[g]));
+                return data.map(d => temp.replace(/{(.+?)}/g, (m, g) => d[g] || m));
             }
         };
     };
@@ -68,7 +67,8 @@
     .concat(['<span class="tag-check customize"><input type="checkbox"> <input data-tag="customize" disabled></span>']).join('');
     var OPTION_TEMPLATE = '<div class="form-group"><div class="col-sm-offset-1 col-sm-10"><div class="checkbox"><label><input data-role="tagoption" type="checkbox" id="{id}">{name}</label></div></div></div>';
     var TAG_TEMPLATE = '<div class="form-group tag"><div class="col-sm-offset-1 col-sm-10"><span class="word">{name}</span>'+ tagCheckHtml +'</div></div>';
-    
+    var QUESTION_TEMPLATE = '<div class="form-group"><label for="{id}" class="col-sm-1 control-label">{name}</label><div class="col-sm-2"><input type="text" class="form-control" id="{id}" placeholder="{name}"></div></div>';
+
     var actionTab = {
         el: $('#actionForm'),
         createActionOptions: function(){
@@ -86,7 +86,11 @@
                     tag.addClass('tag-selected').siblings('.tag-check.predefined').removeClass('tag-selected');
                 }
             });
-            $('#actionSubmit').click(e => console.log(this.collectData()));
+            $('#actionSubmit').click(e => $.ajax('/trainer/action', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(this.collectData())
+            }).done(d => console.log(d)).fail((xhr, ts) => console.log(ts)));
         },
         collectData: function(){
             var customizeTagIdx = 1;
@@ -110,6 +114,42 @@
             this.addListeners();
         }
     };
+
+    var QUESTION_RADIO_TEMPLATE = '<div class="form-group"><label class="col-sm-1 control-label">{name}</label><div class="col-sm-8">{data}</div></div>';
+    var QUESTION_RADIO_VALUES_TEMPLATE = '<label class="radio-inline"><input type="radio" name="{id}" value="{name}">{name}</label>';
+
+    var questionTab = {
+        el: $('#questionForm'),
+        createQuestionOptions: function(){
+            return template(OPTION_TEMPLATE).fill(QUESTION_OPTIONS)
+            .concat(QUESTION_RADIOS.map(r => template(QUESTION_RADIO_TEMPLATE).fill(r)
+                .map(rt => template(rt).fill({data: template(QUESTION_RADIO_VALUES_TEMPLATE).fill(r.values.map(v => ({id: r.id, name: v}))).join('')}))))
+            .concat(template(QUESTION_TEMPLATE).fill(QUESTION_SEGMENTS))
+            .join('');
+        },
+        collectData: function(){
+            var data = {
+                RawQuestion: $('#questionQ').val()
+            };
+            QUESTION_OPTIONS.forEach(o => data[o.id] = this.el.find('#' + o.id)[0].checked? 'y' : '');
+            QUESTION_RADIOS.forEach(r => data[r.id] = $('input[type="radio"][name="'+ r.id +'"]:checked').val() || '');
+            QUESTION_SEGMENTS.forEach(s => data[s.id] = $('#' + s.id).val());
+            return data;
+        },
+        addListeners: function(){
+            $('#questionSubmit').click(e => $.ajax('/trainer/question', {
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(this.collectData())
+            }).done(d => console.log(d)).fail((xhr, ts) => console.log(ts)));
+        },
+        init: function(){
+            this.el.append(this.createQuestionOptions());
+            this.addListeners();
+        }
+    };
+
     actionTab.init();
+    questionTab.init();
     $('#trainTab a[href="#action"]').tab('show');
 }())

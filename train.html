@@ -36,7 +36,15 @@
         <div><button id="actionSubmit" type="button" class="btn btn-success">Submit</button></div>
       </div>
       <div role="tabpanel" class="tab-pane fade" id="question" aria-labelledby="question-tab">
-        <p>input your question here</p>
+        <form class="form-horizontal" id="questionForm">
+          <div class="form-group">
+            <label for="questionQ" class="col-sm-1 control-label">Q</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="questionQ" placeholder="say what you want">
+            </div>
+          </div>
+        </form>
+        <div><button id="questionSubmit" type="button" class="btn btn-success">Submit</button></div>
       </div>
     </div>
     </div>
