@@ -3,6 +3,7 @@ html, body{
     padding: 0px;
     height: 100%;
     width: 100%;
+    background: #f7f7f9;
 }
 
 li{
@@ -13,8 +14,49 @@ li{
     margin: auto;
     width: 80%;
     margin-top: 1em;
-    background: gray;
 }
 .main input{
     box-sizing: content-box;
+}
+.tag-check{
+    display: inline-block;
+    width: 6em;
+    height: 3em;
+    line-height: 3em;
+    text-align: center;
+    margin-left: 0.5em;
+    background: yellow;
+    border-radius: 10px;
+}
+.tag-check.enabled{
+    cursor: pointer;
+    transition: background 1s;
+    -moz-transition: background 1s;
+    -webkit-transition: background 1s;
+    -o-transition: background 1s;
+}
+.tag-check.enabled:hover {
+    cursor: pointer;
+    background: blue;
+}
+.tag-check.tag-selected{
+    background: green;
+}
+span.word{
+    display: inline-block;
+    min-width: 4em;
+}
+.tag-check.customize{
+    width: auto;
+    cursor: pointer;
+    background: none;
+}
+.disabled{
+    opacity: 0.3;
+}
+.form-group .tag{
+    height: 3em;
+}
+.form-group .tag > div{
+    height: 100%;
 }
