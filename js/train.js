@@ -78,7 +78,7 @@
             this.el.find('.tag').remove().end().append(template(TAG_TEMPLATE).fill(words.map(s => ({name: s}))).join(''));
         },
         addListeners: function(){
-            this.el.find('#actionQ').on('input', e => this.createTag(e.target.value.trim().split(/\s+/)));
+            this.el.find('#actionQ').on('input', e => this.createTag(e.target.value.trim() === ''?[] : e.target.value.trim().split(/\s+/)));
             this.el.delegate('.tag-check.customize>input[type="checkbox"]', 'click', e => e.target.checked?$(e.target).siblings('input').attr('disabled', false).end().parent().siblings('.tag-check').removeClass('enabled').addClass('disabled') : $(e.target).siblings('input').attr('disabled', true).end().parent().siblings('.tag-check').removeClass('disabled').addClass('enabled'));
             this.el.delegate('.tag-check.predefined', 'click', function(e){
                 var tag = $(e.target);
