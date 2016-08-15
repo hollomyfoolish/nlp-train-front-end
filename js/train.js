@@ -110,6 +110,7 @@
             return data;
         },
         init: function(){
+            $( "#combobox" ).combobox();
             this.el.append(this.createActionOptions());
             this.addListeners();
         }

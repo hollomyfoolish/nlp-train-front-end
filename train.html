@@ -5,10 +5,13 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <title>Training</title>
+    <link href="./lib/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="./lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="./css/train.css" rel="stylesheet">
     <script src="./lib/jquery-3.1.0.min.js"></script>
+    <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="./js/jquery-ui-customize.js"></script>
     <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -29,7 +32,34 @@
           <div class="form-group">
             <label for="actionA" class="col-sm-1 control-label">A</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="actionA" placeholder="what AI should do">
+              <div class="ui-widget">
+  <label>Your preferred programming language: </label>
+  <select id="combobox">
+    <option value="">Select one...</option>
+    <option value="ActionScript">ActionScript</option>
+    <option value="AppleScript">AppleScript</option>
+    <option value="Asp">Asp</option>
+    <option value="BASIC">BASIC</option>
+    <option value="C">C</option>
+    <option value="C++">C++</option>
+    <option value="Clojure">Clojure</option>
+    <option value="COBOL">COBOL</option>
+    <option value="ColdFusion">ColdFusion</option>
+    <option value="Erlang">Erlang</option>
+    <option value="Fortran">Fortran</option>
+    <option value="Groovy">Groovy</option>
+    <option value="Haskell">Haskell</option>
+    <option value="Java">Java</option>
+    <option value="JavaScript">JavaScript</option>
+    <option value="Lisp">Lisp</option>
+    <option value="Perl">Perl</option>
+    <option value="PHP">PHP</option>
+    <option value="Python">Python</option>
+    <option value="Ruby">Ruby</option>
+    <option value="Scala">Scala</option>
+    <option value="Scheme">Scheme</option>
+  </select>
+</div>
             </div>
           </div>
         </form>
