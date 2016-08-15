@@ -9,7 +9,9 @@ $.widget( "custom.combobox", {
     this._createAutocomplete();
     this._createShowAllButton();
   },
-
+  value: function(){
+    return this.input.val();
+  },
   _createAutocomplete: function() {
     var selected = this.element.children( ":selected" ),
       value = selected.val() ? selected.text() : "";
@@ -17,7 +19,8 @@ $.widget( "custom.combobox", {
     this.input = $( "<input>" )
       .appendTo( this.wrapper )
       .val( value )
-      .attr( "title", "" )
+      .attr('id', this.options.id)
+      .attr( "placeholder", this.options.placeholder )
       .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left form-control" )
       .autocomplete({
         delay: 0,
@@ -48,8 +51,6 @@ $.widget( "custom.combobox", {
 
     $( "<a>" )
       .attr( "tabIndex", -1 )
-      .attr( "title", "Show All Items" )
-      .tooltip()
       .appendTo( this.wrapper )
       .jquerybutton({
         icons: {
@@ -89,7 +90,7 @@ $.widget( "custom.combobox", {
   },
 
   _removeIfInvalid: function( event, ui ) {
-
+    return;
     // Selected an item, nothing to do
     if ( ui.item ) {
       return;

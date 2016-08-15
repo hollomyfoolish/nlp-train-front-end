@@ -76,10 +76,14 @@ span.word{
     position: absolute;
     top: 0;
     bottom: 0;
+    right: -28px;
     margin-left: -1px;
     padding: 0;
 }
 .custom-combobox-input {
     margin: 0;
     padding: 5px 10px;
+}
+.custom-combobox{
+    width: 100%;
 }

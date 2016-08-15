@@ -1,4 +1,9 @@
 (function(){
+    var IntentOperation = ['', 'cancel invoice', 'edit item', 'view item', 'create customer', 'view credit memo', 'view vendor', 'edit vendor', 'cancel credit memo', 'edit invoice', 'create invoice', 'view customer', 'create vendor', 'edit credit memo', 'edit customer', 'create credit memo', 'view invoice', 'internal reconcilation', 'create item'];
+    var TOPICS = ['', 'Overdue Amount', 'Delayed Days', 'Profit', 'Revenue', 'Delayed', 'Sales Amount', 'Open Amount', 'Delayed Count', 'Customer Receivable Aging', 'Opportunity'];
+    var GROUPBY = ['', 'None', 'Customer', 'Sales Employee', 'Contract', 'Project', 'Item', 'Product']
+    var RETURN_TYPE = ['', 'Record', 'Numeric'];
+    var SELECT_OPTIONS_TEMP = '<option value="{value}">{value}</option>';
     var ACTION_TAGS = [{
         id: 'Verb',
         name: 'Verb'
@@ -24,16 +29,20 @@
     }];
     var QUESTION_SEGMENTS = [{
         id: 'Topic',
-        name: 'Topic'
+        name: 'Topic',
+        values: TOPICS
     },{
         id: 'GroupBy',
-        name: 'Group By'
+        name: 'Group By',
+        values: GROUPBY
     },{
         id: 'ReturnType',
-        name: 'Return Type'
-    },{
+        name: 'Return Type',
+        values: RETURN_TYPE
+    }, {
         id: 'LimitTag',
-        name: 'Limit Tag'
+        name: 'Limit Tag',
+        values: ['']
     }];
     var QUESTION_RADIOS = [{
         id: 'OrderBy',
@@ -53,12 +62,12 @@
         id: 'QDateTime',
         name: 'Date Time'
     }];
-
+    
     var template = function(temp){
         return {
             fill: function(data){
                 data = Array.isArray(data)? data : [data];
-                return data.map(d => temp.replace(/{(.+?)}/g, (m, g) => d[g] || m));
+                return data.map(d => temp.replace(/{(.+?)}/g, (m, g) => d[g] === ''?'' : d[g] || m));
             }
         };
     };
@@ -67,7 +76,7 @@
     .concat(['<span class="tag-check customize"><input type="checkbox"> <input data-tag="customize" disabled></span>']).join('');
     var OPTION_TEMPLATE = '<div class="form-group"><div class="col-sm-offset-1 col-sm-10"><div class="checkbox"><label><input data-role="tagoption" type="checkbox" id="{id}">{name}</label></div></div></div>';
     var TAG_TEMPLATE = '<div class="form-group tag"><div class="col-sm-offset-1 col-sm-10"><span class="word">{name}</span>'+ tagCheckHtml +'</div></div>';
-    var QUESTION_TEMPLATE = '<div class="form-group"><label for="{id}" class="col-sm-1 control-label">{name}</label><div class="col-sm-2"><input type="text" class="form-control" id="{id}" placeholder="{name}"></div></div>';
+    var QUESTION_TEMPLATE = '<div class="form-group"><label for="{id}" class="col-sm-1 control-label">{name}</label><div class="col-sm-4"><select type="text" class="form-control" id="sel-{id}" placeholder="{name}">{options}</select></div></div>';
 
     var actionTab = {
         el: $('#actionForm'),
@@ -110,7 +119,10 @@
             return data;
         },
         init: function(){
-            $( "#combobox" ).combobox();
+            this.el.find('label[for="actionA"]').siblings('.col-sm-8').append(template('<select id="{id}">{options}</select>').fill({id: 'actionSelect', options: template(SELECT_OPTIONS_TEMP).fill(IntentOperation.map(i => ({value: i})))})).children('select').combobox({
+                id: 'actionA',
+                placeholder: 'what should AI do'
+            });
             this.el.append(this.createActionOptions());
             this.addListeners();
         }
@@ -125,7 +137,7 @@
             return template(OPTION_TEMPLATE).fill(QUESTION_OPTIONS)
             .concat(QUESTION_RADIOS.map(r => template(QUESTION_RADIO_TEMPLATE).fill(r)
                 .map(rt => template(rt).fill({data: template(QUESTION_RADIO_VALUES_TEMPLATE).fill(r.values.map(v => ({id: r.id, name: v}))).join('')}))))
-            .concat(template(QUESTION_TEMPLATE).fill(QUESTION_SEGMENTS))
+            .concat(template(QUESTION_TEMPLATE).fill(QUESTION_SEGMENTS.map(q => (q.options = template(SELECT_OPTIONS_TEMP).fill(q.values.map(x => ({value: x}))).join('')) && q)))
             .join('');
         },
         collectData: function(){
@@ -145,7 +157,10 @@
             }).done(d => console.log(d)).fail((xhr, ts) => console.log(ts)));
         },
         init: function(){
-            this.el.append(this.createQuestionOptions());
+            this.el.append(this.createQuestionOptions()).find('select').each((i, s) => $(s).combobox({
+                id: $(s).attr('id').replace('sel-', ''),
+                placeholder: $(s).attr('placeholder')
+            }));
             this.addListeners();
         }
     };
