@@ -17,6 +17,9 @@ li{
 .main input{
     box-sizing: content-box;
 }
+.tab-content{
+    padding-top: 5px;
+}
 .tag-check{
     display: inline-block;
     box-sizing: border-box;
