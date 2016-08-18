@@ -165,7 +165,41 @@
         }
     };
 
+    var progressbar = {
+        el: $('#main-mask'),
+        start: function(){
+            this.el.show();
+            var p = this.el.find('.progress-bar');
+            p.width(0);
+            var loading = function(){
+                var w = p.width();
+                w = w > p.parent().width()? 0 : w;
+                p.width(w + 2);
+                this.t = setTimeout(loading, 30);
+            }.bind(this);
+            loading();
+        },
+        stop: function(){
+            clearTimeout(this.t);
+            this.el.find('.progress-bar').width(0).end().hide();
+            return true;
+        }
+    };
+
+    var trainerChecker = {
+        check: function(){
+            $.ajax('/SBONLP/sbonlp/nlp/checkTrainer', {
+                method: 'GET',
+                contentType: 'application/json'
+            }).done(data => data.succeed?progressbar.stop() : this.check()).fail(err => progressbar.stop() && console.log(err));
+        }
+    };
+
     actionTab.init();
     questionTab.init();
+    $('button.restart').click(e => $.ajax('/SBONLP/sbonlp/nlp/restartTrainer', {
+        method: 'GET',
+        contentType: 'application/json'
+    }).done(rsp => progressbar.start()).fail(err => console.log(err)));
     $('#trainTab a[href="#action"]').tab('show');
 }())
