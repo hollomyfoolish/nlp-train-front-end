@@ -95,10 +95,10 @@
                     tag.addClass('tag-selected').siblings('.tag-check.predefined').removeClass('tag-selected');
                 }
             });
-            $('#actionSubmit').click(e => $.ajax('/trainer/action', {
+            $('#actionSubmit').click(e => $.ajax('/SBONLP/sbonlp/nlp/trainAction', {
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(this.collectData())
+                data: JSON.stringify({actionTrainingParam: this.collectData()})
             }).done(d => console.log(d)).fail((xhr, ts) => console.log(ts)));
         },
         collectData: function(){
@@ -150,10 +150,10 @@
             return data;
         },
         addListeners: function(){
-            $('#questionSubmit').click(e => $.ajax('/trainer/question', {
+            $('#questionSubmit').click(e => $.ajax('/SBONLP/sbonlp/nlp/trainQuestion', {
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(this.collectData())
+                data: JSON.stringify({questionTrainingParam: this.collectData()})
             }).done(d => console.log(d)).fail((xhr, ts) => console.log(ts)));
         },
         init: function(){
