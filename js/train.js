@@ -165,6 +165,17 @@
         }
     };
 
+    var dialog = {
+        el: $('#message'),
+        message: function(msg){
+            this.el.find('.modal-body').html(msg);
+            return this;
+        },
+        show: function(){
+            this.el.modal('show');
+        }
+    };
+
     var progressbar = {
         el: $('#main-mask'),
         start: function(){
@@ -200,6 +211,6 @@
     $('button.restart').click(e => $.ajax('/SBONLP/sbonlp/nlp/restartTrainer', {
         method: 'GET',
         contentType: 'application/json'
-    }).done(rsp => progressbar.start()).fail(err => console.log(err)));
+    }).done(rsp => progressbar.start()).fail(err => dialog.message('Restart failed').show() || console.log(err)));
     $('#trainTab a[href="#action"]').tab('show');
 }())
