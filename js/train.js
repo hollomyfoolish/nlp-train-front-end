@@ -179,20 +179,26 @@
     var progressbar = {
         el: $('#main-mask'),
         start: function(){
+            var p = this.el.find('.progress-bar'),
+                left = -30;
+            p.css('left', left + '%');
             this.el.show();
-            var p = this.el.find('.progress-bar');
-            p.width(0);
             var loading = function(){
-                var w = p.width();
-                w = w > p.parent().width()? 0 : w;
-                p.width(w + 2);
-                this.t = setTimeout(loading, 30);
+                // var w = p.width();
+                // w = w > p.parent().width()? 0 : w;
+                // p.width(w + 2);
+                if(left >= 100){
+                    left = -30;
+                }
+                left += 1;
+                p.css('left', left + '%');
+                this.t = setTimeout(loading, 20);
             }.bind(this);
             loading();
         },
         stop: function(){
             clearTimeout(this.t);
-            this.el.find('.progress-bar').width(0).end().hide();
+            this.el.hide();
             return true;
         }
     };
@@ -202,7 +208,7 @@
             $.ajax('/SBONLP/sbonlp/nlp/checkTrainer', {
                 method: 'GET',
                 contentType: 'application/json'
-            }).done(data => data.succeed?progressbar.stop() : this.check()).fail(err => progressbar.stop() && console.log(err));
+            }).done(data => data === 'OK'?progressbar.stop() && dialog.message('Restart successfully!').show() : this.check()).fail(err => progressbar.stop() && console.log(err));
         }
     };
 
@@ -211,6 +217,7 @@
     $('button.restart').click(e => $.ajax('/SBONLP/sbonlp/nlp/restartTrainer', {
         method: 'GET',
         contentType: 'application/json'
-    }).done(rsp => progressbar.start()).fail(err => dialog.message('Restart failed').show() || console.log(err)));
+    }).done(rsp => progressbar.start() || trainerChecker.check()).fail(err => dialog.message('Restart failed!').show() || console.log(err)));
     $('#trainTab a[href="#action"]').tab('show');
+    window.progressbar = progressbar;
 }())
